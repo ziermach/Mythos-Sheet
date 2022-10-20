@@ -1,0 +1,39 @@
+{
+  "name": "svelte-app",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "start": "sirv public --no-clear",
+    "smui-theme-light": "smui-theme compile assets/smui.css -i src/theme",
+    "smui-theme-dark": "smui-theme compile assets/smui-dark.css -i src/theme/dark"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-typescript": "^9.0.1",
+    "@smui/button": "^7.0.0-beta.0",
+    "@smui/card": "^7.0.0-beta.0",
+    "@smui/checkbox": "^7.0.0-beta.0",
+    "@smui/form-field": "^7.0.0-beta.0",
+    "@smui/icon-button": "^7.0.0-beta.0",
+    "@smui/select": "^7.0.0-beta.0",
+    "@smui/textfield": "^7.0.0-beta.0",
+    "rollup": "^2.3.4",
+    "rollup-plugin-copy": "^3.4.0",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-livereload": "^2.0.0",
+    "rollup-plugin-svelte": "^7.0.0",
+    "rollup-plugin-terser": "^7.0.0",
+    "smui-theme": "^7.0.0-beta.0",
+    "svelte": "^3.0.0",
+    "svelte-preprocess": "^4.10.7"
+  },
+  "dependencies": {
+    "@el3um4s/renderer-for-electron-system-info": "^2.0.1",
+    "sirv-cli": "^2.0.0",
+    "svelte-material-ui": "^7.0.0-beta.0",
+    "yup": "^0.32.11"
+  }
+}
