@@ -27,10 +27,10 @@ app.commandLine.appendSwitch("enable-experimental-web-platform-features");
   testing both side: isInProduction: true, serveSvelteDev: false, buildSvelteDev:true, watchSvelteBuild: true
 */
 const developerOptions = {
-    isInProduction: true, // true if is in production
-    serveSvelteDev: env === 'development', // true when you want to watch svelte
+    isInProduction: env === 'production', // true if is in production
+    serveSvelteDev: false, // true when you want to watch svelte
     buildSvelteDev: true, // true when you want to build svelte
-    watchSvelteBuild: env === 'development', // true when you want to watch build svelte
+    watchSvelteBuild: false, // true when you want to watch build svelte
     port: 5174
 };
 

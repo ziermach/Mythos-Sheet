@@ -49,7 +49,8 @@ class Main {
             });
 
             loading.once("show", async () => {
-                this.window = await this.createWindow(!this.settings.isInProduction);
+                console.log('this.settingsDev.isInProduction', this.settingsDev.isInProduction);
+                this.window = await this.createWindow();
                 this.onEvent.emit("window-created");
                 loading.hide();
                 loading.close();
@@ -62,7 +63,7 @@ class Main {
         app.on("activate", this.onActivate);
     }
 
-    async createWindow(dev = false) {
+    async createWindow() {
         const settings = { ...this.settings };
         app.name = appName;
         const window = new BrowserWindow({
@@ -86,9 +87,9 @@ class Main {
         }
 
         window.show();
-        // if (dev) {
-        //     window.webContents.openDevTools();
-        // }
+        if (!this.settingsDev.isInProduction) {
+            window.webContents.openDevTools();
+        }
 
         return window;
     }
@@ -101,7 +102,8 @@ class Main {
 
     onActivate() {
         if (!this.window) {
-            this.createWindow(!this.settingsDev.isInProduction);
+            console.log('this.settingsDev.isInProduction', this.settingsDev.isInProduction)
+            this.createWindow();
         }
     }
 }

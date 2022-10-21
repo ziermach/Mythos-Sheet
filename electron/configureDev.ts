@@ -26,19 +26,12 @@ export class ConfigureDev {
         this.port = settings.port
         this.loadURL = null;
 
-        this._check_isInProduction();
-
         if (!this.isInProduction && this.serveSvelteDev) this._dev_Svelte();
         if (!this.isInProduction && this.buildSvelteDev) this._build_Dist();
         if (!this.isInProduction && this.watchSvelteBuild) this._watch_Dist();
         if (this.isInProduction || !this.serveSvelteDev) this._serve_Dist();
     }
 
-    _check_isInProduction() {
-        if (!this.isInProduction) {
-            this.isInProduction = process.env.NODE_ENV === "production" || !/[\\/]electron/.exec(process.execPath); // !process.execPath.match(/[\\/]electron/);
-        };
-    }
     _dev_Svelte() {
         exec("npm run svelte:dev");
         require("electron-reload")(path.join(__dirname, "..", "svelte"));

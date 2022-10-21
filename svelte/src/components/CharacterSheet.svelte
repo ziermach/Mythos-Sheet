@@ -25,10 +25,12 @@
     });
 
     function save() {
+        console.debug("saveCharacter", character);
         ipcClient.saveCharacter(character);
     }
 
     const handleChange = () => {
+        console.debug("change detected");
         save();
     };
 
@@ -69,6 +71,7 @@
     onMount(async () => {
         ipcClient = new IPCClient();
         const response = await ipcClient.readCharacter(characterName);
+        console.debug("got response", response);
         character = { ...character, ...response };
         console.debug("character", character);
     });
@@ -120,19 +123,33 @@
                 on:change={() => handleChange()}
             />
 
-            <Bubbels
-                label={firstLetterUpcase("assets")}
-                numberOfBubbels={10}
-                bind:count={character.assets}
-                on:change={() => handleChange()}
-            />
+            <div>
+                <Textfield
+                    label={firstLetterUpcase("assets")}
+                    type="number"
+                    bind:value={character.assets}
+                    max={10}
+                    min={0}
+                    input$min={0}
+                    input$max={10}
+                    on:change={() => {
+                        handleChange();
+                    }}
+                />
 
-            <Bubbels
-                label={firstLetterUpcase("reputation")}
-                numberOfBubbels={10}
-                bind:count={character.reputation}
-                on:change={() => handleChange()}
-            />
+                <Textfield
+                    label={firstLetterUpcase("reputation")}
+                    type="number"
+                    bind:value={character.reputation}
+                    max={10}
+                    min={0}
+                    input$min={0}
+                    input$max={10}
+                    on:change={() => {
+                        handleChange();
+                    }}
+                />
+            </div>
 
             <Gear
                 bind:inventar={character.gear}
@@ -151,11 +168,17 @@
                 on:change={() => handleChange()}
             />
 
-            <Bubbels
+            <Textfield
                 label={firstLetterUpcase("experiencePoints")}
-                numberOfBubbels={10}
-                bind:count={character.experiencePoints}
-                on:change={() => handleChange()}
+                type="number"
+                bind:value={character.experiencePoints}
+                max={10}
+                min={0}
+                input$min={0}
+                input$max={10}
+                on:change={() => {
+                    handleChange();
+                }}
             />
 
             <Moves

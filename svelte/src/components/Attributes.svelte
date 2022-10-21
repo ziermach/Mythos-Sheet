@@ -13,7 +13,7 @@
 <FormField>
     {#each Object.keys(attributes) as attribute}
         <Textfield
-            style="width: 5vw; min-width: 5vw; margin: 0.5vw"
+            style="min-width: 5vw; max-width: 10vw; margin: 1vw"
             label={attribute.slice(0, 3)}
             variant="outlined"
             type="number"

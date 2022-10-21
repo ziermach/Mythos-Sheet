@@ -75,3 +75,14 @@ button:focus {
     margin: 1vw;
     min-width: 25vw;
 }
+
+.mdc-card {
+	padding: 1vw;
+	margin: 1vw;
+	min-width: 30vw;
+}
+.move-desc {
+	min-width: fit-content; 
+	max-width: 75vw;
+	text-align: center;
+}
