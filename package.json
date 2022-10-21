@@ -1,20 +1,22 @@
 {
-	"name": "mythos-world-sheet",
-	"productName": "mythos-world-sheet",
+	"name": "mythos-sheet",
+	"productName": "mythos-sheet",
+	"description": "inofficial Character-Tool for Cthulu Mythos World",
 	"license": "MIT",
 	"version": "0.0.1",
 	"main": "dist/index.js",
 	"scripts": {
 		"nodemon": "nodemon",
 		"start": "npm run compile && electron .",
-		"preview": "cross-env NODE_ENV=production npm run svelte:build && cross-env NODE_ENV=production npm run compile && cross-env NODE_ENV=production electron .",
+		"build": "npm run svelte:build && npm run compile",
+		"preview": "npm run build && NODE_ENV=production electron .",
 		"svelte:dev": "cd svelte && npm run dev",
 		"svelte:build": "cd svelte && npm run build",
 		"compile": "tsc",
-		"out:win": "cross-env NODE_ENV=production npm run svelte:build && cross-env NODE_ENV=production npm run compile && cross-env NODE_ENV=production electron-builder build --win --publish never",
-		"out:mac": "cross-env NODE_ENV=production npm run svelte:build && cross-env NODE_ENV=production npm run compile && cross-env NODE_ENV=production electron-builder build --mac --publish never",
-		"publish:win": "cross-env NODE_ENV=production npm run svelte:build && cross-env NODE_ENV=production npm run compile && cross-env NODE_ENV=production electron-builder build --win --publish always",
-		"publish:mac": "cross-env NODE_ENV=production npm run svelte:build && cross-env NODE_ENV=production npm run compile && cross-env NODE_ENV=production electron-builder build --mac --publish always",
+		"out:win": "cross-env NODE_ENV=production npm run build && electron-builder build --win --publish never",
+		"out:mac": "cross-env NODE_ENV=production npm run build && electron-builder build --mac --publish never",
+		"publish:win": "cross-env NODE_ENV=production npm run build && electron-builder build --win --publish always",
+		"publish:mac": "cross-env NODE_ENV=production npm run build && electron-builder build --mac --publish always",
 		"check-updates": "npx npm-check-updates",
 		"check-updates:minor": "npx npm-check-updates --target minor",
 		"check-updates:patch": "npx npm-check-updates --target patch"
@@ -38,28 +40,24 @@
 		"electron-updater": "^5.2.1"
 	},
 	"build": {
-		"appId": "memento-ket",
+		"appId": "mythos-sheet",
 		"directories": {
 			"output": "out"
 		},
 		"publish": [
 			{
 				"provider": "github",
-				"owner": "el3um4s",
-				"repo": "mythos-world-sheet"
+				"owner": "ziermach",
+				"repo": "Mythos-Sheet"
 			}
 		],
 		"win": {
 			"target": [
 				"nsis"
-			],
-			"icon": "icon.ico"
+			]
 		},
 		"nsis": {
-			"installerIcon": "icon.ico",
-			"uninstallerIcon": "icon.ico",
-			"uninstallDisplayName": "Memento KET (SvelteKit+Electron+TypeScript)",
-			"license": "license.txt",
+			"uninstallDisplayName": "Mythos World Uninstall",
 			"oneClick": false,
 			"allowToChangeInstallationDirectory": true
 		}

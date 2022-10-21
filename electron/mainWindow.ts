@@ -48,9 +48,6 @@ class Main {
                 transparent: true,
             });
 
-            // this.window = await this.createWindow();
-            // this.onEvent.emit("window-created");
-
             loading.once("show", async () => {
                 this.window = await this.createWindow(!this.settings.isInProduction);
                 this.onEvent.emit("window-created");
@@ -76,7 +73,6 @@ class Main {
                 contextIsolation: true,
                 sandbox: false,
                 preload: path.join(__dirname, "preload.js"),
-                devTools: dev,
             },
         });
 
@@ -89,26 +85,10 @@ class Main {
             console.log(error);
         }
 
-        // if (this.configDev.isLocalHost()) {
-        //     try {
-        //         await window.loadURL(`http://localhost:${this.settingsDev.port}/`);
-        //     } catch (error) {
-        //         console.log(`ERROR: window.loadURL("http://localhost:${this.settingsDev.port}/");`);
-        //         console.log(error);
-        //     }
-        // } else if (this.configDev.isElectronServe()) {
-        //     try {
-        //         await this.configDev.loadURL(window);
-        //     } catch (error) {
-        //         console.log(`this.configDev.loadURL(window);`);
-        //         console.log(error);
-        //     }
-        // }
-
         window.show();
-        if (dev) {
-            window.webContents.openDevTools();
-        }
+        // if (dev) {
+        //     window.webContents.openDevTools();
+        // }
 
         return window;
     }
@@ -121,7 +101,7 @@ class Main {
 
     onActivate() {
         if (!this.window) {
-            this.createWindow();
+            this.createWindow(!this.settingsDev.isInProduction);
         }
     }
 }

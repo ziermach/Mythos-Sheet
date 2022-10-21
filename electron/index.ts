@@ -10,8 +10,8 @@ import fileSystem from "./IPC/fileSystem";
 
 
 
-const env = process.env.NODE_ENV || 'development';
-console.log(env);
+const env = process.env.NODE_ENV || 'production';
+console.log('process.env.NODE_ENV', env);
 const mainURLPATH = pathToFileURL(path.join(__dirname, "www", "index.html"));
 
 globals.set.mainURL(mainURLPATH.href);
@@ -27,7 +27,7 @@ app.commandLine.appendSwitch("enable-experimental-web-platform-features");
   testing both side: isInProduction: true, serveSvelteDev: false, buildSvelteDev:true, watchSvelteBuild: true
 */
 const developerOptions = {
-    isInProduction: env !== 'development', // true if is in production
+    isInProduction: true, // true if is in production
     serveSvelteDev: env === 'development', // true when you want to watch svelte
     buildSvelteDev: true, // true when you want to build svelte
     watchSvelteBuild: env === 'development', // true when you want to watch build svelte
