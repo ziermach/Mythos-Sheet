@@ -35,7 +35,7 @@ const developerOptions = {
 };
 
 const windowSettings = {
-    title: "Mythos World Character Sheet",
+    title: "Mythos-Sheet",
     width: 1024,
     height: 1024,
 };

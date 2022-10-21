@@ -17,7 +17,8 @@
 		"out:mac": "cross-env NODE_ENV=production npm run build && electron-builder build --mac --publish never",
 		"publish:win": "cross-env NODE_ENV=production npm run build && electron-builder build --win --publish always",
 		"publish:mac": "cross-env NODE_ENV=production npm run build && electron-builder build --mac --publish always",
-		"check-updates": "npx npm-check-updates",
+		"publish:linux": "cross-env NODE_ENV=production npm run build && electron-builder build --linux --publish always",
+		"publish": "cross-env NODE_ENV=production npm run build && electron-builder build --win --publish always && electron-builder build --mac --publish always && electron-builder build --linux --publish always",
 		"check-updates:minor": "npx npm-check-updates --target minor",
 		"check-updates:patch": "npx npm-check-updates --target patch"
 	},
@@ -57,7 +58,7 @@
 			]
 		},
 		"nsis": {
-			"uninstallDisplayName": "Mythos World Uninstall",
+			"uninstallDisplayName": "Mythos Uninstall",
 			"oneClick": false,
 			"allowToChangeInstallationDirectory": true
 		}
