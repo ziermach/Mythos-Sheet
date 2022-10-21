@@ -26,9 +26,8 @@ export class ConfigureDev {
         this.port = settings.port
         this.loadURL = null;
 
-        if (!this.isInProduction && this.serveSvelteDev) this._dev_Svelte();
-        if (!this.isInProduction && this.buildSvelteDev) this._build_Dist();
-        if (!this.isInProduction && this.watchSvelteBuild) this._watch_Dist();
+        if (!this.isInProduction) this._build_Dist();
+        if (!this.isInProduction) this._watch_Dist();
         if (this.isInProduction || !this.serveSvelteDev) this._serve_Dist();
     }
 
@@ -36,7 +35,11 @@ export class ConfigureDev {
         exec("npm run svelte:dev");
         require("electron-reload")(path.join(__dirname, "..", "svelte"));
     }
-    _build_Dist() { exec("npm run svelte:build"); }
+    _build_Dist() {
+        exec("npm run svelte:build");
+        require("electron-reload")(path.join(__dirname, "..", "svelte")
+        );
+    }
     _watch_Dist() { require("electron-reload")(path.join(__dirname, "www")); }
     _serve_Dist() {
         this.loadURL = serve({ directory: "dist/www" });

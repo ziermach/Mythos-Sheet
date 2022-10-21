@@ -7,6 +7,9 @@ import globals from "./globals";
 import path from "path";
 import { pathToFileURL } from "node:url";
 import fileSystem from "./IPC/fileSystem";
+import systemInfo from "@el3um4s/ipc-for-electron-system-info";
+import updaterInfo from "./IPC/updaterInfo";
+import { autoUpdater } from "electron-updater";
 
 
 
@@ -27,27 +30,18 @@ app.commandLine.appendSwitch("enable-experimental-web-platform-features");
   testing both side: isInProduction: true, serveSvelteDev: false, buildSvelteDev:true, watchSvelteBuild: true
 */
 const developerOptions = {
-    isInProduction: env === 'production', // true if is in production
-    serveSvelteDev: false, // true when you want to watch svelte
-    buildSvelteDev: true, // true when you want to build svelte
-    watchSvelteBuild: false, // true when you want to watch build svelte
-    port: 5174
+  isInProduction: env === 'production', // true if is in production
+  serveSvelteDev: false, // true when you want to watch svelte
+  buildSvelteDev: true, // true when you want to build svelte
+  watchSvelteBuild: false, // true when you want to watch build svelte
+  port: 5174
 };
 
 const windowSettings = {
-    title: "Mythos-Sheet",
-    width: 1024,
-    height: 1024,
+  title: "Mythos-Sheet",
+  width: 1024,
+  height: 1024,
 };
 
 
 const main = new Main(windowSettings, developerOptions);
-
-main.onEvent.on("window-created", async () => {
-    // systemInfo.initIpcMain(ipcMain, main.window);
-    // updaterInfo.initIpcMain(ipcMain, main.window);
-    fileSystem.initIpcMain(ipcMain, main.window);
-    // updaterInfo.initAutoUpdater(autoUpdater, main.window);
-});
-
-

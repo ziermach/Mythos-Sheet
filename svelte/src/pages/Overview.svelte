@@ -6,14 +6,15 @@
     import { IPCClient } from "../ipcClient";
 
     let client: IPCClient;
-    let characterNames: string[] = [];
-    onMount(async () => {
+    let loadCharacterNamesPromise: Promise<string[]>;
+    onMount(() => {
         client = new IPCClient();
-        await loadCharacterNames();
+        loadCharacterNamesPromise = loadCharacterNames();
     });
 
     async function loadCharacterNames() {
-        characterNames = await client.listCharacterNames();
+        console.debug("list names");
+        return await client.listCharacterNames();
     }
     function openCharacter(name: string) {
         navigate(`/view?characterName=${name}`);
@@ -21,48 +22,56 @@
 
     async function deleteCharacter(name: string) {
         await client.deleteCharacter(name);
-        await loadCharacterNames();
+        loadCharacterNamesPromise = loadCharacterNames();
     }
 </script>
 
 <h1>Characters</h1>
-{#if characterNames?.length > 0}
-    <DataTable
-        table$aria-label="Characters list"
-        style="width: 100%; margin: 1vw"
-    >
-        <Head>
-            <Row>
-                <Cell>Name</Cell>
-                <Cell>Actions</Cell>
-            </Row>
-        </Head>
-        <Body>
-            {#each characterNames as name}
-                <Row>
-                    <Cell>
-                        <Link href={`/view?characterName=${name}`}>
-                            {name}.json
-                        </Link>
-                    </Cell>
-                    <Cell>
-                        <IconButton
-                            class="material-icons"
-                            on:click={() => deleteCharacter(name)}
-                        >
-                            delete
-                        </IconButton>
-                        <IconButton
-                            class="material-icons"
-                            on:click={() => openCharacter(name)}
-                        >
-                            visibility
-                        </IconButton>
-                    </Cell>
-                </Row>
-            {/each}
-        </Body>
-    </DataTable>
+{#if loadCharacterNamesPromise}
+    {#await loadCharacterNamesPromise}
+        <p>...waiting</p>
+    {:then characterNames}
+        {#if characterNames.length}
+            <DataTable
+                table$aria-label="Characters list"
+                style="width: 100%; margin: 1vw"
+            >
+                <Head>
+                    <Row>
+                        <Cell>Name</Cell>
+                        <Cell>Actions</Cell>
+                    </Row>
+                </Head>
+                <Body>
+                    {#each characterNames as name}
+                        <Row>
+                            <Cell>
+                                <Link href={`/view?characterName=${name}`}>
+                                    {name}
+                                </Link>
+                            </Cell>
+                            <Cell>
+                                <IconButton
+                                    class="material-icons"
+                                    on:click={() => deleteCharacter(name)}
+                                >
+                                    delete
+                                </IconButton>
+                                <IconButton
+                                    class="material-icons"
+                                    on:click={() => openCharacter(name)}
+                                >
+                                    visibility
+                                </IconButton>
+                            </Cell>
+                        </Row>
+                    {/each}
+                </Body>
+            </DataTable>
+        {/if}
+    {:catch error}
+        <p style="color: red">{error.message}</p>
+    {/await}
 {/if}
 
 <Link href={`/create`}>Add new</Link>

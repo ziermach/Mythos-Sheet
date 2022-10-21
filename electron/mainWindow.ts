@@ -1,9 +1,13 @@
 
 
-import { app, BrowserWindow } from "electron";
+import systemInfo from "@el3um4s/ipc-for-electron-system-info";
+import { app, BrowserWindow, ipcMain } from "electron";
+import { autoUpdater } from "electron-updater";
 import EventEmitter from "events";
 import path from "path";
 import { ConfigureDev, DeveloperOptions } from "./configureDev";
+import fileSystem from "./IPC/fileSystem";
+import updaterInfo from "./IPC/updaterInfo";
 
 const appName = "MEMENTO - SvelteKit, Electron, TypeScript";
 
@@ -69,6 +73,7 @@ class Main {
         const window = new BrowserWindow({
             ...settings,
             show: false,
+            icon: __dirname + '/assets/favicon.ico',
             webPreferences: {
                 nodeIntegration: false,
                 contextIsolation: true,
@@ -76,11 +81,14 @@ class Main {
                 preload: path.join(__dirname, "preload.js"),
             },
         });
+        systemInfo.initIpcMain(ipcMain, window);
+        updaterInfo.initIpcMain(ipcMain, window);
+        fileSystem.initIpcMain(ipcMain, window);
+        updaterInfo.initAutoUpdater(autoUpdater, window);
+        fileSystem.initIpcMain(ipcMain, window);
 
         try {
             await window.loadFile(path.join(__dirname, "index.html"));
-
-            // await window.loadURL(`file://${__dirname}/index.html`);
         } catch (error) {
             console.log(`window.loadURL('file://${__dirname}/index.html');`);
             console.log(error);
@@ -103,7 +111,7 @@ class Main {
     onActivate() {
         if (!this.window) {
             console.log('this.settingsDev.isInProduction', this.settingsDev.isInProduction)
-            this.createWindow();
+            //this.createWindow();
         }
     }
 }

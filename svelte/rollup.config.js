@@ -78,9 +78,11 @@ export default {
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
 		production && terser(),
-		production && copy({
+		copy({
 			targets: [
-				{ src: 'public/*', dest: '../dist' },
+				{ src: 'src/assets/*', dest: 'public/assets' },
+				production && { src: 'public/*', dest: '../dist' },
+				production && { src: 'public/assets/*', dest: '../dist/assets' },
 			]
 		}),
 	],

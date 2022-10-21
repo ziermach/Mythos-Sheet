@@ -1,0 +1,11 @@
+- Add missing moves for investigator
+- Add missing Proffesions
+    - Add Warning when change Proffesion
+- Edit Character Name
+- Add Character Avatar
+    - Upload
+    - Update
+    - Delete
+- Styling
+    - Icon
+    - Background image

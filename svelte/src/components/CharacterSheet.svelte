@@ -1,14 +1,12 @@
 <script lang="ts">
     import Card, { Content } from "@smui/card";
     import Textfield from "@smui/textfield";
-    import { createEventDispatcher, onMount } from "svelte";
+    import { onMount } from "svelte";
     import * as yup from "yup";
-    import { Professions } from "../data/profession";
     import { IPCClient } from "../ipcClient";
-    import type { Character, ProfessionEnum } from "../model/character";
+    import type { Character } from "../model/character";
     import { firstLetterUpcase } from "../utillity";
     import Attributes from "./Attributes.svelte";
-    import Bubbels from "./Bubbels.svelte";
     import Gear from "./Gear.svelte";
     import Injuries from "./Injuries.svelte";
     import Moves from "./MoveList.svelte";

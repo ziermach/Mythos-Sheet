@@ -1,16 +1,19 @@
 import type { Character } from "./model/character";
 
+
 export class IPCClient {
     private fileSystem: any;
+
     constructor() {
         try {
-            this.fileSystem =
-                globalThis["ipc" as keyof typeof globalThis]["fileSystem"];
+            this.fileSystem = globalThis.ipc.fileSystem;
         } catch (error) {
             console.error(error);
             this.fileSystem = null;
         }
     }
+
+
     readCharacter(name: string) {
         return new Promise<Character>((resolve, reject) => {
 
@@ -21,6 +24,7 @@ export class IPCClient {
                     resolve(character);
                 });
             } catch (e) {
+                console.error(e);
                 reject(e);
             }
         });
@@ -36,6 +40,7 @@ export class IPCClient {
                     resolve();
                 });
             } catch (e) {
+                console.error(e);
                 reject(e);
             }
         });
@@ -43,13 +48,16 @@ export class IPCClient {
 
     listCharacterNames() {
         return new Promise<string[]>((resolve, reject) => {
-
+            console.log(this.fileSystem);
+            console.debug(`listCharacterNames`)
             try {
                 this.fileSystem.send("listCharacterNames");
                 this.fileSystem.receive("listCharacterNames", (names: string[]) => {
+                    console.debug(`listCharacterNames`, names)
                     resolve(names);
                 });
             } catch (e) {
+                console.error(e);
                 reject(e);
             }
         })
@@ -65,6 +73,7 @@ export class IPCClient {
                 this.fileSystem.send("saveCharacter", data);
                 resolve();
             } catch (e) {
+                console.error(e);
                 reject(e)
             }
         });

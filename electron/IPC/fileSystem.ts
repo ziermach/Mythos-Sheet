@@ -32,6 +32,7 @@ async function deleteCharacter(
     event: Electron.IpcMainEvent,
     data: { name: string }
 ) {
+    console.log('called deleteCharacter');
     const fileName = `${data.name}.json`;
     console.log(`try delelte ${fileName}`);
 
@@ -49,6 +50,7 @@ async function readCharacter(
     event: Electron.IpcMainEvent,
     data: { name: string }
 ) {
+    console.log('called readCharacter');
     const fileName = `${data.name}.json`;
     const fileExists = await checkFileCharactersExists(fileName);
     if (!fileExists) {
@@ -63,8 +65,8 @@ async function listCharacterNames(
     mainWindow: BrowserWindow,
     event: Electron.IpcMainEvent,
 ) {
+    console.log('called listCharacterNames');
     const names = await listCharacters();
-    console.log(names);
     mainWindow.webContents.send("listCharacterNames", names);
 }
 
@@ -73,7 +75,7 @@ async function saveCharacter(
     event: Electron.IpcMainEvent,
     data: { character: string }
 ) {
-    console.log(data.character);
+    console.log('called saveCharacter');
     const character = JSON.parse(data.character) as Character;
     const fileName = `${character.name}.json`;
     const fileExists = await checkFileCharactersExists(fileName);

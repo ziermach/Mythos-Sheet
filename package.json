@@ -52,7 +52,12 @@
 				"repo": "Mythos-Sheet"
 			}
 		],
+		"mac": {
+			"icon": "./dist/assets/favicon-512.icns",
+			"category": "public.app-category.entertainment"
+		},
 		"win": {
+			"icon": "./dist/assets/favicon-256.ico",
 			"target": [
 				"nsis"
 			]
