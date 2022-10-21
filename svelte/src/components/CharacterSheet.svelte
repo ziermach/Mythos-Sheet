@@ -12,6 +12,7 @@
     import Moves from "./MoveList.svelte";
     import Notes from "./Notes.svelte";
     import OtherPlayers from "./OtherPlayers.svelte";
+    import Passion from "./Passion.svelte";
     import Relationships from "./Relationships.svelte";
 
     export let characterName: string;
@@ -35,6 +36,7 @@
     let character: Character = {
         name: "",
         experiencePoints: 0,
+        passions: [],
         assets: 0,
         attributes: {
             dexterity: 0,
@@ -49,15 +51,7 @@
         disorders: [],
         look: "",
         otherPlayers: [],
-        passion: "",
-        profession: {
-            description: "",
-            name: "",
-            professionMoves: {
-                available: [],
-                starter: [],
-            },
-        },
+        profession: null,
         relationships: [],
         reputation: 0,
         player: {
@@ -99,11 +93,8 @@
                 on:change={() => handleChange()}
             />
 
-            <Textfield
-                style="min-width: 25vw;"
-                label={"Passion"}
-                variant="outlined"
-                bind:value={character.passion}
+            <Passion
+                bind:passions={character.passions}
                 on:change={() => handleChange()}
             />
 
@@ -175,6 +166,7 @@
                 min={0}
                 input$min={0}
                 input$max={10}
+                style="width: 10vw;"
                 on:change={() => {
                     handleChange();
                 }}

@@ -1,9 +1,9 @@
 export interface Character {
     player: Partial<Player>;
-    profession: Profession;
+    profession: Profession | null;
     name: string;
     look: string;
-    passion: string;
+    passions: Passion[];
     relationships: Relationship[];
     otherPlayers: Player[];
     attributes: Attributes;
@@ -18,7 +18,8 @@ export interface Character {
 }
 
 export enum ProfessionEnum {
-    INVESTIGATOR = 'investigator'
+    INVESTIGATOR = 'investigator',
+    ANTIQUAR = 'antiquar'
 }
 
 export interface Player {
@@ -27,13 +28,22 @@ export interface Player {
     playedBy?: string;
 }
 
+export interface Passion {
+    name: string;
+    active: boolean;
+}
+
 export interface Profession {
     name: string;
     description: string;
+    startAssets: number;
     professionMoves: {
         starter: GameMove[];
         available: GameMove[];
     }
+    starterGear: Gear[],
+    passions: Passion[];
+    relationsShips: Relationship[];
     importantAttributes?: {
         intelligence?: boolean;
         empathy?: boolean;

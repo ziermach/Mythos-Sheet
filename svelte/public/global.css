@@ -86,3 +86,14 @@ button:focus {
 	max-width: 75vw;
 	text-align: center;
 }
+
+.mdc-text-field{
+	min-width: fit-content;
+	max-width: 60vw;
+	word-wrap: break-word;
+}
+
+.mdc-text-field--textarea {
+	min-width: 40vw;
+	max-width: 60vw;
+}

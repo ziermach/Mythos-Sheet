@@ -3,7 +3,6 @@ import { IPC, SendChannels } from "@el3um4s/ipc-for-electron";
 import { app, BrowserWindow } from "electron";
 import { access, writeFile, mkdir, readFile, readdir, unlink } from "fs/promises";
 import path from "path";
-import { Character, Profession } from "../model/character";
 
 const nameAPI = "fileSystem";
 const dirName = 'characters';
@@ -76,7 +75,7 @@ async function saveCharacter(
     data: { character: string }
 ) {
     console.log('called saveCharacter');
-    const character = JSON.parse(data.character) as Character;
+    const character = JSON.parse(data.character);
     const fileName = `${character.name}.json`;
     const fileExists = await checkFileCharactersExists(fileName);
     if (!fileExists) {
@@ -101,7 +100,7 @@ async function checkFileCharactersExists(fileName: string) {
     }
 }
 
-async function writeCharacter(fileName: string, data: Character) {
+async function writeCharacter(fileName: string, data: any) {
     const userData = app.getPath("userData");
     const pathFile = path.join(userData, dirName, fileName);
     try {

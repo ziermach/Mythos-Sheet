@@ -27,31 +27,29 @@
 
 <h2>{label}</h2>
 
-<div>
-    {#each injuries as injury, i}
-        <div>
-            <Textfield
-                style="min-width: 25vw;"
-                type="text"
-                bind:value={injury.name}
-                on:change={() => handleChange()}
-            />
-            <Select
-                on:change={() => handleChange()}
-                bind:value={injury.strength}
-            >
-                {#each Object.values(InjurieStrength) as strength}
-                    <Option value={strength}
-                        >{firstLetterUpcase(strength)}</Option
-                    >
-                {/each}
-            </Select>
-            <IconButton class="material-icons" on:click={() => removeInjury(i)}>
-                delete
-            </IconButton>
-        </div>
-    {/each}
-</div>
+{#each injuries as injury, i}
+    <div style="width: 85vw;">
+        <Textfield
+            style="width: inherit;"
+            type="text"
+            bind:value={injury.name}
+            on:change={() => handleChange()}
+        />
+        <Select
+            style="width: 10vw;"
+            on:change={() => handleChange()}
+            bind:value={injury.strength}
+        >
+            {#each Object.values(InjurieStrength) as strength}
+                <Option value={strength}>{firstLetterUpcase(strength)}</Option>
+            {/each}
+        </Select>
+        <IconButton class="material-icons" on:click={() => removeInjury(i)}>
+            delete
+        </IconButton>
+    </div>
+{/each}
+
 <Button on:click={() => addInjury()}>
     <Label>
         Add {label}

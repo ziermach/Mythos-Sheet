@@ -18,7 +18,7 @@
 		"publish:win": "cross-env NODE_ENV=production npm run build && electron-builder build --win --publish always",
 		"publish:mac": "cross-env NODE_ENV=production npm run build && electron-builder build --mac --publish always",
 		"publish:linux": "cross-env NODE_ENV=production npm run build && electron-builder build --linux --publish always",
-		"publish": "cross-env NODE_ENV=production npm run build && electron-builder build --win --publish always && electron-builder build --mac --publish always && electron-builder build --linux --publish always",
+		"publish": "cross-env NODE_ENV=production npm run build && concurrently --kill-others \"electron-builder build --win --publish always\" \"electron-builder build --mac --publish always\" \"electron-builder build --linux --publish always\"",
 		"check-updates:minor": "npx npm-check-updates --target minor",
 		"check-updates:patch": "npx npm-check-updates --target patch"
 	},

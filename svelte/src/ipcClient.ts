@@ -64,6 +64,7 @@ export class IPCClient {
     }
 
     saveCharacter(character: Partial<Character>) {
+        console.debug('saveCharacter', character);
         return new Promise<void>((resolve, reject) => {
 
             const data = {

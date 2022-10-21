@@ -4,7 +4,7 @@
     import Select, { Option } from "@smui/select";
     import Textfield from "@smui/textfield";
     import { onMount } from "svelte";
-    import { Link, navigate } from "@jamen/svelte-router";
+    import { navigate } from "@jamen/svelte-router";
     import { Professions } from "../data/profession";
     import { IPCClient } from "../ipcClient";
     import { ProfessionEnum, type Character } from "../model/character";
@@ -26,6 +26,10 @@
         });
         await client.saveCharacter({
             name,
+            gear: profession.starterGear,
+            assets: profession.startAssets,
+            passions: profession.passions,
+            relationships: profession.relationsShips,
             profession,
         } as Partial<Character>);
         navigate(`/view?characterName=${name}`);
