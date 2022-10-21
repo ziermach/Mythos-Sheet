@@ -7,7 +7,7 @@
     import { firstLetterUpcase } from "../utillity";
     import { createEventDispatcher } from "svelte";
     import type { Injuries } from "../model/character";
-    import type { InjurieStrength } from "../model/character";
+    import { InjurieStrength } from "../model/character";
     export let label: string;
     export let injuries: Injuries[];
     function addInjury() {
@@ -41,7 +41,9 @@
                 bind:value={injury.strength}
             >
                 {#each Object.values(InjurieStrength) as strength}
-                    <Option>{firstLetterUpcase(strength)}</Option>
+                    <Option value={strength}
+                        >{firstLetterUpcase(strength)}</Option
+                    >
                 {/each}
             </Select>
             <IconButton class="material-icons" on:click={() => removeInjury(i)}>

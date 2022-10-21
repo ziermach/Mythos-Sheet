@@ -59,7 +59,9 @@
                     label="Profession"
                 >
                     {#each Object.values(ProfessionEnum) as profession}
-                        <Option>{firstLetterUpcase(profession)}</Option>
+                        <Option value={profession}
+                            >{firstLetterUpcase(profession)}</Option
+                        >
                     {/each}
                 </Select>
                 <IconButton

@@ -80,21 +80,30 @@ class Main {
             },
         });
 
-        if (this.configDev.isLocalHost()) {
-            try {
-                await window.loadURL(`http://localhost:${this.settingsDev.port}/`);
-            } catch (error) {
-                console.log(`ERROR: window.loadURL("http://localhost:${this.settingsDev.port}/");`);
-                console.log(error);
-            }
-        } else if (this.configDev.isElectronServe()) {
-            try {
-                await this.configDev.loadURL(window);
-            } catch (error) {
-                console.log(`this.configDev.loadURL(window);`);
-                console.log(error);
-            }
+        try {
+            await window.loadFile(path.join(__dirname, "index.html"));
+
+            // await window.loadURL(`file://${__dirname}/index.html`);
+        } catch (error) {
+            console.log(`window.loadURL('file://${__dirname}/index.html');`);
+            console.log(error);
         }
+
+        // if (this.configDev.isLocalHost()) {
+        //     try {
+        //         await window.loadURL(`http://localhost:${this.settingsDev.port}/`);
+        //     } catch (error) {
+        //         console.log(`ERROR: window.loadURL("http://localhost:${this.settingsDev.port}/");`);
+        //         console.log(error);
+        //     }
+        // } else if (this.configDev.isElectronServe()) {
+        //     try {
+        //         await this.configDev.loadURL(window);
+        //     } catch (error) {
+        //         console.log(`this.configDev.loadURL(window);`);
+        //         console.log(error);
+        //     }
+        // }
 
         window.show();
         if (dev) {

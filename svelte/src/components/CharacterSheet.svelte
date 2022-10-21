@@ -1,9 +1,11 @@
 <script lang="ts">
     import Card, { Content } from "@smui/card";
     import Textfield from "@smui/textfield";
-    import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher, onMount } from "svelte";
     import * as yup from "yup";
-    import type { Character, Profession } from "../model/character";
+    import { Professions } from "../data/profession";
+    import { IPCClient } from "../ipcClient";
+    import type { Character, ProfessionEnum } from "../model/character";
     import { firstLetterUpcase } from "../utillity";
     import Attributes from "./Attributes.svelte";
     import Bubbels from "./Bubbels.svelte";
@@ -14,12 +16,23 @@
     import OtherPlayers from "./OtherPlayers.svelte";
     import Relationships from "./Relationships.svelte";
 
-    export let profession: Profession | undefined;
+    export let characterName: string;
+    $: character.name = characterName;
+    let ipcClient = new IPCClient();
+
     const schema = yup.object().shape({
         name: yup.string().nullable().required(),
     });
 
-    export const character: Character = {
+    function save() {
+        ipcClient.saveCharacter(character);
+    }
+
+    const handleChange = () => {
+        save();
+    };
+
+    let character: Character = {
         name: "",
         experiencePoints: 0,
         assets: 0,
@@ -53,17 +66,20 @@
         notes: "",
     };
 
-    const dispatch = createEventDispatcher<{ change: void }>();
-
-    const handleChange = () => dispatch("change");
+    onMount(async () => {
+        ipcClient = new IPCClient();
+        const response = await ipcClient.readCharacter(characterName);
+        character = { ...character, ...response };
+        console.debug("character", character);
+    });
 </script>
 
-{#if profession}
+{#if character.profession}
     <Card>
         <Content>
-            <h1>{firstLetterUpcase(profession.name)}</h1>
+            <h1>{firstLetterUpcase(character.profession.name)}</h1>
             <div style="width: 35vw;text-align: center; margin: 2vw">
-                {profession.description}
+                {character.profession.description}
             </div>
             <Textfield
                 style="min-width: 25vw;"
@@ -143,8 +159,8 @@
             />
 
             <Moves
-                moves={profession.professionMoves.available}
-                professionMoves={profession.professionMoves.starter}
+                moves={character.profession.professionMoves.available}
+                professionMoves={character.profession.professionMoves.starter}
                 on:change={() => handleChange()}
             />
 

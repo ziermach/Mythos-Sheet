@@ -38,14 +38,9 @@ export default {
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: '../dist/www/build/bundle.js'
+		file: production ? '../dist/build/bundle.js' : 'public/build/bundle.js'
 	},
 	plugins: [
-		copy({
-			targets: [
-				{ src: 'public/**/*', dest: '../dist/www/' },
-			]
-		}),
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {
@@ -55,7 +50,7 @@ export default {
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
-		css({ output: '../dist/wwwbundle.css' }),
+		css({ output: production ? '../dist/bundle.css' : 'bundle.css' }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
@@ -82,9 +77,17 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
+		production && copy({
+			targets: [
+				{ src: 'public/*', dest: '../dist' },
+			]
+		}),
 	],
+
 	watch: {
 		clearScreen: false
 	}
 };
+
+

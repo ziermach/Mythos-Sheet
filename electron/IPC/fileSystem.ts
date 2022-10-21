@@ -1,9 +1,9 @@
 import { IPC, SendChannels } from "@el3um4s/ipc-for-electron";
 
 import { app, BrowserWindow } from "electron";
-import { access, writeFile, mkdir, readFile, readdir } from "fs/promises";
+import { access, writeFile, mkdir, readFile, readdir, unlink } from "fs/promises";
 import path from "path";
-import { Character } from "../model/character";
+import { Character, Profession } from "../model/character";
 
 const nameAPI = "fileSystem";
 const dirName = 'characters';
@@ -13,10 +13,11 @@ const validSendChannel: SendChannels = {
     saveCharacter: saveCharacter,
     listCharacterNames: listCharacterNames,
     readCharacter: readCharacter,
+    deleteCharacter: deleteCharacter,
 };
 
 // from Main
-const validReceiveChannel: string[] = ["saveCharacter", "listCharacterNames", "readCharacter"];
+const validReceiveChannel: string[] = ["saveCharacter", "listCharacterNames", "readCharacter", "deleteCharacter"];
 
 const fileSystem = new IPC({
     nameAPI,
@@ -26,6 +27,22 @@ const fileSystem = new IPC({
 
 export default fileSystem;
 
+async function deleteCharacter(
+    mainWindow: BrowserWindow,
+    event: Electron.IpcMainEvent,
+    data: { name: string }
+) {
+    const fileName = `${data.name}.json`;
+    console.log(`try delelte ${fileName}`);
+
+    const fileExists = await checkFileCharactersExists(fileName);
+    if (!fileExists) {
+        return ``;
+    }
+    await deleteFile(fileName);
+    mainWindow.webContents.send("deleteCharacter");
+
+}
 
 async function readCharacter(
     mainWindow: BrowserWindow,
@@ -56,6 +73,7 @@ async function saveCharacter(
     event: Electron.IpcMainEvent,
     data: { character: string }
 ) {
+    console.log(data.character);
     const character = JSON.parse(data.character) as Character;
     const fileName = `${character.name}.json`;
     const fileExists = await checkFileCharactersExists(fileName);
@@ -98,6 +116,16 @@ async function listCharacters() {
     const pathDir = path.join(userData, dirName);
     try {
         return await (await readdir(pathDir)).map(path => path.replace('.json', ''));
+    } catch (err) {
+        console.error(err);
+    }
+}
+
+async function deleteFile(fileName: string) {
+    const userData = app.getPath("userData");
+    const pathDir = path.join(userData, dirName, fileName);
+    try {
+        return await unlink(pathDir);
     } catch (err) {
         console.error(err);
     }
