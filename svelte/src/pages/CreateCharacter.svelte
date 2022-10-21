@@ -43,6 +43,7 @@
             variant="outlined"
             type="string"
             bind:value={name}
+            required
         />
 
         <Select bind:value={selectedProfession} label="Profession">
