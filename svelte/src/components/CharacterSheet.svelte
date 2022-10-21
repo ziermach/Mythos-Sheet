@@ -85,6 +85,7 @@
                 {character.profession.description}
             </div>
             <Textfield
+                disabled={true}
                 style="min-width: 25vw;"
                 label={"Name"}
                 variant="outlined"
