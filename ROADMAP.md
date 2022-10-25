@@ -2,6 +2,7 @@
 - Add missing Proffesions
     - Add Warning when change Proffesion
 - Edit Character Name
+- Add Linux build
 - Add Character Avatar
     - Upload
     - Update
