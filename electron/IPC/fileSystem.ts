@@ -32,8 +32,8 @@ async function deleteCharacter(
     data: { name: string }
 ) {
     console.log('called deleteCharacter');
-    const fileName = `${data.name}.json`;
-    console.log(`try delelte ${fileName}`);
+    const fileName = `${wrapString(data.name)}.json`;
+    console.log(`try delete ${fileName}`);
 
     const fileExists = await checkFileCharactersExists(fileName);
     if (!fileExists) {
@@ -50,7 +50,7 @@ async function readCharacter(
     data: { name: string }
 ) {
     console.log('called readCharacter');
-    const fileName = `${data.name}.json`;
+    const fileName = `${wrapString(data.name)}.json`;
     const fileExists = await checkFileCharactersExists(fileName);
     if (!fileExists) {
         return ``;
@@ -76,7 +76,7 @@ async function saveCharacter(
 ) {
     console.log('called saveCharacter');
     const character = JSON.parse(data.character);
-    const fileName = `${character.name}.json`;
+    const fileName = `${wrapString(character.name)}.json`;
     const fileExists = await checkFileCharactersExists(fileName);
     if (!fileExists) {
         await createDir();
@@ -170,4 +170,13 @@ async function createDir() {
             console.error(error);
         }
     }
+}
+
+
+function unwrapString(s: string) {
+    return s.replace('"', '')
+}
+
+function wrapString(s: string) {
+    return `"${s}"`;
 }
