@@ -1,6 +1,7 @@
 import { IPC, SendChannels } from "@el3um4s/ipc-for-electron";
 
 import { app, BrowserWindow } from "electron";
+import { readdirSync } from "fs";
 import { access, writeFile, mkdir, readFile, readdir, unlink } from "fs/promises";
 import path from "path";
 
@@ -31,8 +32,8 @@ async function deleteCharacter(
     event: Electron.IpcMainEvent,
     data: { name: string }
 ) {
-    console.log('called deleteCharacter');
-    const fileName = `${wrapString(data.name)}.json`;
+    console.log('called deleteCharacter', data.name);
+    const fileName = `${encodeURIComponent(data.name)}.json`;
     console.log(`try delete ${fileName}`);
 
     const fileExists = await checkFileCharactersExists(fileName);
@@ -49,8 +50,9 @@ async function readCharacter(
     event: Electron.IpcMainEvent,
     data: { name: string }
 ) {
-    console.log('called readCharacter');
-    const fileName = `${wrapString(data.name)}.json`;
+    data.name = decodeURIComponent(data.name)
+    console.log('called readCharacter', data.name);
+    const fileName = `${encodeURIComponent(data.name)}.json`;
     const fileExists = await checkFileCharactersExists(fileName);
     if (!fileExists) {
         return ``;
@@ -76,7 +78,7 @@ async function saveCharacter(
 ) {
     console.log('called saveCharacter');
     const character = JSON.parse(data.character);
-    const fileName = `${wrapString(character.name)}.json`;
+    const fileName = `${encodeURIComponent(character.name)}.json`;
     const fileExists = await checkFileCharactersExists(fileName);
     if (!fileExists) {
         await createDir();
@@ -116,7 +118,9 @@ async function listCharacters() {
     const userData = app.getPath("userData");
     const pathDir = path.join(userData, dirName);
     try {
-        return await (await readdir(pathDir)).map(path => path.replace('.json', ''));
+        const characters = readdirSync(pathDir).map(fileName => decodeURIComponent(fileName).replace('.json', ''));
+        console.debug(characters);
+        return characters;
     } catch (err) {
         console.error(err);
     }
@@ -170,13 +174,4 @@ async function createDir() {
             console.error(error);
         }
     }
-}
-
-
-function unwrapString(s: string) {
-    return s.replace('"', '')
-}
-
-function wrapString(s: string) {
-    return `"${s}"`;
 }

@@ -13,7 +13,7 @@ import { autoUpdater } from "electron-updater";
 
 
 
-const env = process.env.NODE_ENV || 'production';
+const env = process.env.NODE_ENV;
 console.log('process.env.NODE_ENV', env);
 const mainURLPATH = pathToFileURL(path.join(__dirname, "www", "index.html"));
 

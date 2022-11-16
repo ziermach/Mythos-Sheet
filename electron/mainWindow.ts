@@ -53,6 +53,7 @@ class Main {
             });
 
             loading.once("show", async () => {
+                console.log("show", this.settingsDev.isInProduction);
                 this.window = await this.createWindow(this.settingsDev.isInProduction);
                 this.onEvent.emit("window-created");
                 loading.hide();
@@ -94,6 +95,7 @@ class Main {
         }
 
         window.show();
+        console.log(prod)
         if (!prod) {
             window.webContents.openDevTools();
         }
@@ -109,6 +111,7 @@ class Main {
 
     onActivate() {
         if (!this.window) {
+            console.log("show", this.settingsDev.isInProduction);
             this.createWindow(this.settingsDev.isInProduction);
         }
     }

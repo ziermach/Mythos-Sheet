@@ -8,6 +8,7 @@
 	"scripts": {
 		"nodemon": "nodemon",
 		"start": "npm run compile && electron .",
+		"dev": "cross-env NODE_ENV=dev npm run start",
 		"build": "npm run svelte:build && npm run compile",
 		"preview": "npm run build && NODE_ENV=production electron .",
 		"svelte:dev": "cd svelte && npm run dev",
@@ -68,9 +69,6 @@
 			},
 			"icon": "./dist/assets/favicon-512.icns",
 			"category": "public.app-category.entertainment"
-		},
-		"appx": {
-			"backgroundColor": "transparent"
 		},
 		"win": {
 			"icon": "./dist/assets/favicon-256.ico",
