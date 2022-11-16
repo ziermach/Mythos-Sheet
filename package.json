@@ -69,6 +69,9 @@
 			"icon": "./dist/assets/favicon-512.icns",
 			"category": "public.app-category.entertainment"
 		},
+		"appx": {
+			"backgroundColor": "transparent"
+		},
 		"win": {
 			"icon": "./dist/assets/favicon-256.ico",
 			"target": [
