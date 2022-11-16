@@ -4,6 +4,7 @@
     import { createEventDispatcher } from "svelte";
     import type { GameMove } from "../model/character";
 
+    export let editMode: boolean;
     export let move: GameMove;
 
     const dispatch = createEventDispatcher<{ change: void }>();
@@ -12,7 +13,9 @@
 </script>
 
 <FormField>
-    <Checkbox on:change={() => handleChange()} bind:checked={move.active} />
+    {#if editMode}
+        <Checkbox on:change={() => handleChange()} bind:checked={move.active} />
+    {/if}
     <h3>{move.name}</h3>
 </FormField>
 <div class="move-desc">{move.description}</div>

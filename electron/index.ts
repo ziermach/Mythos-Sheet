@@ -1,15 +1,10 @@
 
 
 import { app } from "electron";
-import { ipcMain } from "electron";
-import Main from "./mainWindow";
-import globals from "./globals";
-import path from "path";
 import { pathToFileURL } from "node:url";
-import fileSystem from "./IPC/fileSystem";
-import systemInfo from "@el3um4s/ipc-for-electron-system-info";
-import updaterInfo from "./IPC/updaterInfo";
-import { autoUpdater } from "electron-updater";
+import path from "path";
+import globals from "./globals";
+import Main from "./mainWindow";
 
 
 

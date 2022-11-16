@@ -4,6 +4,7 @@
     import Textfield from "@smui/textfield";
     import { createEventDispatcher } from "svelte";
     import type { Gear } from "../model/character";
+    export let editMode: boolean;
 
     export let inventar: Gear[];
     function addGear() {
@@ -26,23 +27,28 @@
 {#each inventar as gear, i}
     <div style="width: 80vw;">
         <Textfield
+            disabled={!editMode}
             style="max-width: 5vw; width: 5vw; min-width: 5vw"
             type="number"
             bind:value={gear.count}
             on:change={() => handleChange()}
         />
         <Textfield
+            disabled={!editMode}
             style="width: inherit;"
             variant="outlined"
             bind:value={gear.name}
             on:change={() => handleChange()}
         />
-        <IconButton class="material-icons" on:click={() => removeGear(i)}>
-            delete
-        </IconButton>
+        {#if editMode}
+            <IconButton class="material-icons" on:click={() => removeGear(i)}>
+                delete
+            </IconButton>
+        {/if}
     </div>
 {/each}
-
-<Button on:click={() => addGear()}>
-    <Label>Add Gear</Label>
-</Button>
+{#if editMode}
+    <Button on:click={() => addGear()}>
+        <Label>Add Gear</Label>
+    </Button>
+{/if}

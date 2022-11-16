@@ -1,4 +1,8 @@
-- Add missing moves for investigator
+- Style fix
+- Collapse feature
+- Markdown editor
+    - maybe in seperate window
+pdf export
 - Add missing Proffesions
     - Add Warning when change Proffesion
 - Edit Character Name

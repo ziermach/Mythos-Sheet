@@ -35,6 +35,7 @@ function serve() {
 export default {
 	input: 'src/main.ts',
 	output: {
+		inlineDynamicImports: true,
 		sourcemap: true,
 		format: 'iife',
 		name: 'app',
@@ -78,11 +79,15 @@ export default {
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
 		production && terser(),
+		production && copy({
+			targets: [
+				{ src: 'public/*', dest: '../dist' },
+				{ src: 'public/assets/*', dest: '../dist/assets' },
+			]
+		}),
 		copy({
 			targets: [
 				{ src: 'src/assets/*', dest: 'public/assets' },
-				production && { src: 'public/*', dest: '../dist' },
-				production && { src: 'public/assets/*', dest: '../dist/assets' },
 			]
 		}),
 	],

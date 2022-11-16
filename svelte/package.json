@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "DEBUG=electronpdf:* rollup -c -w",
     "start": "sirv public --no-clear",
     "smui-theme-light": "smui-theme compile assets/smui.css -i src/theme",
     "smui-theme-dark": "smui-theme compile assets/smui-dark.css -i src/theme/dark"
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@el3um4s/renderer-for-electron-system-info": "^2.0.1",
-    "@jamen/svelte-router": "git+https://github.com/ziermach/svelte-router",
+    "@jamen/svelte-router": "^1.0.0",
     "sirv-cli": "^2.0.0",
     "svelte-material-ui": "^7.0.0-beta.0",
     "yup": "^0.32.11"

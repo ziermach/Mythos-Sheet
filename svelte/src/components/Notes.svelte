@@ -1,16 +1,19 @@
 <script lang="ts">
-	import Textfield from "@smui/textfield";
-	import { createEventDispatcher } from "svelte";
+    import Textfield from "@smui/textfield";
+    import { createEventDispatcher } from "svelte";
 
-    export let notes: string
-    
-    const dispatch = createEventDispatcher<{change: void}>();
-    const handleChange = () => dispatch('change');
+    export let notes: string;
+    export let editMode: boolean;
+
+    const dispatch = createEventDispatcher<{ change: void }>();
+    const handleChange = () => dispatch("change");
 </script>
 
-<Textfield 
+<Textfield
+    disabled={!editMode}
+    style="height: fit-content"
     on:change={() => handleChange()}
-    textarea 
-    label='notes'
+    textarea
+    label="notes"
     bind:value={notes}
 />

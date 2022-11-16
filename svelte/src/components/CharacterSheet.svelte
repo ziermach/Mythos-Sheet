@@ -1,5 +1,7 @@
 <script lang="ts">
+    import Button from "@smui/button/src/Button.svelte";
     import Card, { Content } from "@smui/card";
+    import Label from "@smui/list/src/Label.svelte";
     import Textfield from "@smui/textfield";
     import { onMount } from "svelte";
     import * as yup from "yup";
@@ -13,9 +15,11 @@
     import Notes from "./Notes.svelte";
     import OtherPlayers from "./OtherPlayers.svelte";
     import Passion from "./Passion.svelte";
+    import PdfExport from "./PDFExport.svelte";
     import Relationships from "./Relationships.svelte";
 
     export let characterName: string;
+    export let editMode = false;
     $: character.name = characterName;
     let ipcClient = new IPCClient();
 
@@ -72,13 +76,21 @@
 {#if character.profession}
     <Card>
         <Content>
-            <h1>{firstLetterUpcase(character.profession.name)}</h1>
+            <h1>{firstLetterUpcase(character.profession.name)} foo</h1>
+            {#if editMode}
+                <PdfExport name={character.name} />
+            {/if}
+
+            <Button on:click={() => (editMode = !editMode)}>
+                <Label>Edit {editMode ? "off" : "on"}</Label>
+            </Button>
+
             <div style="width: 35vw;text-align: center; margin: 2vw">
                 {character.profession.description}
             </div>
             <Textfield
                 disabled={true}
-                style="min-width: 25vw;"
+                style="min-width: 40vw;"
                 label={"Name"}
                 variant="outlined"
                 bind:value={character.name}
@@ -86,7 +98,8 @@
             />
 
             <Textfield
-                style="min-width: 25vw;"
+                disabled={!editMode}
+                style="min-width: 40vw;"
                 label={"Look"}
                 variant="outlined"
                 bind:value={character.look}
@@ -94,27 +107,33 @@
             />
 
             <Passion
+                bind:editMode
                 bind:passions={character.passions}
                 on:change={() => handleChange()}
             />
 
             <Relationships
+                bind:editMode
                 bind:relationships={character.relationships}
                 on:change={() => handleChange()}
             />
 
             <OtherPlayers
+                bind:editMode
                 bind:otherPlayers={character.otherPlayers}
                 on:change={() => handleChange()}
             />
 
             <Attributes
+                bind:editMode
                 bind:attributes={character.attributes}
                 on:change={() => handleChange()}
             />
 
             <div>
                 <Textfield
+                    style="min-width: 25vw;"
+                    disabled={!editMode}
                     label={firstLetterUpcase("assets")}
                     type="number"
                     bind:value={character.assets}
@@ -128,6 +147,8 @@
                 />
 
                 <Textfield
+                    style="min-width: 25vw;"
+                    disabled={!editMode}
                     label={firstLetterUpcase("reputation")}
                     type="number"
                     bind:value={character.reputation}
@@ -142,23 +163,27 @@
             </div>
 
             <Gear
+                bind:editMode
                 bind:inventar={character.gear}
                 on:change={() => handleChange()}
             />
 
             <Injuries
+                bind:editMode
                 bind:injuries={character.injuries}
                 label="Injury"
                 on:change={() => handleChange()}
             />
 
             <Injuries
+                bind:editMode
                 bind:injuries={character.disorders}
                 label="Disorder"
                 on:change={() => handleChange()}
             />
 
             <Textfield
+                disabled={!editMode}
                 label={firstLetterUpcase("experiencePoints")}
                 type="number"
                 bind:value={character.experiencePoints}
@@ -173,12 +198,14 @@
             />
 
             <Moves
+                bind:editMode
                 moves={character.profession.professionMoves.available}
                 professionMoves={character.profession.professionMoves.starter}
                 on:change={() => handleChange()}
             />
 
             <Notes
+                bind:editMode
                 bind:notes={character.notes}
                 on:change={() => handleChange()}
             />

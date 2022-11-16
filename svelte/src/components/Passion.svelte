@@ -5,7 +5,7 @@
     import Textfield from "@smui/textfield";
     import { createEventDispatcher } from "svelte";
     import type { Passion } from "../model/character";
-
+    export let editMode: boolean;
     export let passions: Passion[];
     function addPassion() {
         passions = [...passions, { active: true, name: "" }];
@@ -25,20 +25,30 @@
 <h2>Passion</h2>
 {#each passions as passion, i}
     <div>
-        <Checkbox
-            on:change={() => handleChange()}
-            bind:checked={passion.active}
-        />
+        {#if editMode}
+            <Checkbox
+                on:change={() => handleChange()}
+                bind:checked={passion.active}
+            />
+        {/if}
         <Textfield
+            disabled={!editMode}
             textarea
             bind:value={passion.name}
             on:change={() => handleChange()}
         />
-        <IconButton class="material-icons" on:click={() => removePassion(i)}>
-            delete
-        </IconButton>
+        {#if editMode}
+            <IconButton
+                class="material-icons"
+                on:click={() => removePassion(i)}
+            >
+                delete
+            </IconButton>
+        {/if}
     </div>
 {/each}
-<Button on:click={() => addPassion()}>
-    <Label>Add Passion</Label>
-</Button>
+{#if editMode}
+    <Button on:click={() => addPassion()}>
+        <Label>Add Passion</Label>
+    </Button>
+{/if}

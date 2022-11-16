@@ -9,7 +9,7 @@
     import { firstLetterUpcase } from "../utillity";
 
     export let otherPlayers: Player[];
-
+    export let editMode: boolean;
     const dispatch = createEventDispatcher<{ change: void }>();
     const handleChange = () => dispatch("change");
 
@@ -35,18 +35,21 @@
 {#each otherPlayers as otherPlayer, i}
     <div>
         <Textfield
+            disabled={!editMode}
             label="Character Name"
             variant="outlined"
             bind:value={otherPlayer.characterName}
             on:change={() => handleChange()}
         />
         <Textfield
+            disabled={!editMode}
             label="Played By"
             variant="outlined"
             bind:value={otherPlayer.playedBy}
             on:change={() => handleChange()}
         />
         <Select
+            disabled={!editMode}
             on:change={() => handleChange()}
             bind:value={otherPlayer.profession}
             label="Profession"
@@ -57,11 +60,15 @@
                 >
             {/each}
         </Select>
-        <IconButton class="material-icons" on:click={() => removePlayer(i)}>
-            delete
-        </IconButton>
+        {#if editMode}
+            <IconButton class="material-icons" on:click={() => removePlayer(i)}>
+                delete
+            </IconButton>
+        {/if}
     </div>
 {/each}
-<Button on:click={() => addPlayer()}>
-    <Label>Add new Player</Label>
-</Button>
+{#if editMode}
+    <Button on:click={() => addPlayer()}>
+        <Label>Add new Player</Label>
+    </Button>
+{/if}

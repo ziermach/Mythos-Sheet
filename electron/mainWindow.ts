@@ -7,6 +7,7 @@ import EventEmitter from "events";
 import path from "path";
 import { ConfigureDev, DeveloperOptions } from "./configureDev";
 import fileSystem from "./IPC/fileSystem";
+import pdfGenerator from "./IPC/pdf";
 import updaterInfo from "./IPC/updaterInfo";
 
 const appName = "MEMENTO - SvelteKit, Electron, TypeScript";
@@ -54,6 +55,7 @@ class Main {
 
             loading.once("show", async () => {
                 console.log("show", this.settingsDev.isInProduction);
+                this.settingsDev.isInProduction = this.settingsDev.isInProduction || true;
                 this.window = await this.createWindow(!this.settingsDev.isInProduction);
                 this.onEvent.emit("window-created");
                 loading.hide();
@@ -84,8 +86,7 @@ class Main {
         systemInfo.initIpcMain(ipcMain, window);
         updaterInfo.initIpcMain(ipcMain, window);
         fileSystem.initIpcMain(ipcMain, window);
-        updaterInfo.initAutoUpdater(autoUpdater, window);
-        fileSystem.initIpcMain(ipcMain, window);
+        pdfGenerator.initIpcMain(ipcMain, window);
 
         try {
             await window.loadFile(path.join(__dirname, "index.html"));
@@ -112,6 +113,7 @@ class Main {
     onActivate() {
         if (!this.window) {
             console.log("show", this.settingsDev.isInProduction);
+            this.settingsDev.isInProduction = this.settingsDev.isInProduction || true;
             this.createWindow(!this.settingsDev.isInProduction);
         }
     }

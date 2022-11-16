@@ -3,14 +3,26 @@ import type { Character } from "./model/character";
 
 export class IPCClient {
     private fileSystem: any;
+    private pdfGenerator: any;
 
     constructor() {
         try {
             this.fileSystem = globalThis.ipc.fileSystem;
+            this.pdfGenerator = globalThis.ipc.pdfGenerator;
         } catch (error) {
             console.error(error);
             this.fileSystem = null;
+            this.pdfGenerator = null;
         }
+    }
+
+    printPDF(name: string) {
+        return new Promise<string>((resolve, reject) => {
+            this.pdfGenerator.send("printPDF", { name });
+            this.pdfGenerator.receive("wrote-pdf", (pdfPath: string) => {
+                resolve(pdfPath);
+            });
+        });
     }
 
 

@@ -10,6 +10,8 @@
     import { InjurieStrength } from "../model/character";
     export let label: string;
     export let injuries: Injuries[];
+    export let editMode: boolean;
+
     function addInjury() {
         injuries = [...injuries, { name: "", strength: InjurieStrength.EASY }];
         handleChange();
@@ -30,12 +32,14 @@
 {#each injuries as injury, i}
     <div style="width: 85vw;">
         <Textfield
+            disabled={!editMode}
             style="width: inherit;"
             type="text"
             bind:value={injury.name}
             on:change={() => handleChange()}
         />
         <Select
+            disabled={!editMode}
             style="width: 10vw;"
             on:change={() => handleChange()}
             bind:value={injury.strength}
@@ -44,14 +48,17 @@
                 <Option value={strength}>{firstLetterUpcase(strength)}</Option>
             {/each}
         </Select>
-        <IconButton class="material-icons" on:click={() => removeInjury(i)}>
-            delete
-        </IconButton>
+        {#if editMode}
+            <IconButton class="material-icons" on:click={() => removeInjury(i)}>
+                delete
+            </IconButton>
+        {/if}
     </div>
 {/each}
-
-<Button on:click={() => addInjury()}>
-    <Label>
-        Add {label}
-    </Label>
-</Button>
+{#if editMode}
+    <Button on:click={() => addInjury()}>
+        <Label>
+            Add {label}
+        </Label>
+    </Button>
+{/if}
