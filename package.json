@@ -3,7 +3,7 @@
 	"productName": "mythos-sheet",
 	"description": "inofficial Character-Tool for Cthulu Mythos World",
 	"license": "MIT",
-	"version": "0.0.311",
+	"version": "0.0.321",
 	"main": "dist/index.js",
 	"scripts": {
 		"nodemon": "nodemon",
